@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Best</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background-color: #00b894;
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 15px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .catalogue {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .produit {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+    .produit h3 {
+      margin: 0 0 10px;
+    }
+    button {
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #panier {
+      margin-top: 40px;
+      padding: 20px;
+      background: #ffeaa7;
+      border-radius: 10px;
+    }
+    footer {
+      background-color: #dfe6e9;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Nova Best</h1>
+    <nav>
+      <a href="#accueil">Accueil</a>
+      <a href="#produits">Produits</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="accueil">
+    <h2>Bienvenue chez Nova Best</h2>
+    <p>La meilleure boutique en ligne à Cotonou !</p>
+  </section>
+
+  <section id="produits">
+    <h2>Nos Produits</h2>
+    <div>
+      <label for="tri">Trier par :</label>
+      <select id="tri" onchange="trierProduits()">
+        <option value="prix">Prix</option>
+        <option value="type">Type</option>
+      </select>
+    </div>
+    <div class="catalogue" id="catalogue">
+      <div class="produit" data-prix="15000" data-type="Électronique">
+        <h3>Écouteurs Bluetooth</h3>
+        <p>Prix : 15 000 FCFA</p>
+        <button onclick="ajouterAuPanier('Écouteurs Bluetooth', 15000)">Ajouter au panier</button>
+      </div>
+      <div class="produit" data-prix="10000" data-type="Accessoire">
+        <h3>Montre connectée</h3>
+        <p>Prix : 10 000 FCFA</p>
+        <button onclick="ajouterAuPanier('Montre connectée', 10000)">Ajouter au panier</button>
+      </div>
+      <div class="produit" data-prix="25000" data-type="Mode">
+        <h3>Sneakers tendance</h3>
+        <p>Prix : 25 000 FCFA</p>
+        <button onclick="ajouterAuPanier('Sneakers tendance', 25000)">Ajouter au panier</button>
+      </div>
+      <div class="produit" data-prix="30000" data-type="Vêtement">
+        <h3>Manteau d'hiver</h3>
+        <p>Prix : 30 000 FCFA</p>
+        <button onclick="ajouterAuPanier('Manteau d\'hiver', 30000)">Ajouter au panier</button>
+      </div>
+      <div class="produit" data-prix="12000" data-type="Vêtement">
+        <h3>Pull en laine</h3>
+        <p>Prix : 12 000 FCFA</p>
+        <button onclick="ajouterAuPanier('Pull en laine', 12000)">Ajouter au panier</button>
+      </div>
+      <div class="produit" data-prix="8000" data-type="Vêtement">
+        <h3>Bonnet en tricot</h3>
+        <p>Prix : 8 000 FCFA</p>
+        <button onclick="ajouterAuPanier('Bonnet en tricot', 8000)">Ajouter au panier</button>
+      </div>
+    </div>
+    <div id="panier">
+      <h3>Panier</h3>
+      <ul id="liste-panier"></ul>
+      <p><strong>Total :</strong> <span id="total">0</span> FCFA</p>
+    </div>
+  </section>
+
+  <section id="services">
+    <h2>Nos Services</h2>
+    <p>Localisation : Cotonou</p>
+    <p>Livraison rapide et paiement sécurisé.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contactez-nous</h2>
+    <p>Téléphone : <a href="tel:+22961481773">(+229) 61 48 17 73</a></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Nova Best. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    const panier = [];
+
+    function ajouterAuPanier(nom, prix) {
+      panier.push({ nom, prix });
+      afficherPanier();
+    }
+
+    function afficherPanier() {
+      const liste = document.getElementById("liste-panier");
+      const totalElem = document.getElementById("total");
+      liste.innerHTML = "";
+      let total = 0;
+
+      panier.forEach((item, index) => {
+        total += item.prix;
+        const li = document.createElement("li");
+        li.textContent = `${item.nom} - ${item.prix} FCFA`;
+        liste.appendChild(li);
+      });
+
+      totalElem.textContent = total;
+    }
+
+    function trierProduits() {
+      const critere = document.getElementById("tri").value;
+      const produits = Array.from(document.querySelectorAll(".produit"));
+      const catalogue = document.getElementById("catalogue");
+
+      produits.sort((a, b) => {
+        if (critere === "prix") {
+          return parseInt(a.dataset.prix) - parseInt(b.dataset.prix);
+        } else if (critere === "type") {
+          return a.dataset.type.localeCompare(b.dataset.type);
+        }
+      });
+
+      catalogue.innerHTML = "";
+      produits.forEach(p => catalogue.appendChild(p));
+    }
+  </script>
+</body>
+</html>
