@@ -1,2 +1,0 @@
-# Nova-Best
-E-commerce 
